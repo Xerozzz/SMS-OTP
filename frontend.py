@@ -5,14 +5,14 @@ from datetime import datetime
 from datetime import timedelta
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'mysecret' 
+app.config['SECRET_KEY'] = 'mysecret' # Make sure to change this to your own value!!!
 
 def db_connect():
     conn = sqlite3.connect('database.db')
     conn.row_factory = sqlite3.Row
     return conn
 
-@app.route("/", methods=("GET","POST"))
+@app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
 
@@ -36,6 +36,7 @@ def create():
 @app.route("/verify", methods=("GET","POST"))
 def verify():
     if request.method == "POST":  
+        print(request.host)
         conn = db_connect() 
         otp = request.form['otp']
         f = '%Y-%m-%d %H:%M:%S'
