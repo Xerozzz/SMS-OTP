@@ -44,10 +44,10 @@ def verify():
             expiry = conn.execute('SELECT expiry FROM otps WHERE otp = ?', (otp,)).fetchone()[0]
         except:
             return("OTP invalid")
+        conn.execute('DELETE from otps where otp = ?', (otp,))
+        conn.commit()
+        conn.close()
         if (datetime.strptime(expiry,f) - datetime.now()).seconds / 60 > 1:
-            conn.execute('DELETE from otps where otp = ?', (otp,))
-            conn.commit()
-            conn.close()
             return("OTP expired")
         else:
             return("OTP verified")

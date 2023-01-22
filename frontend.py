@@ -45,11 +45,11 @@ def verify():
         except:
             flash("OTP invalid")
             return redirect(url_for('verify'))
+        conn.execute('DELETE from otps where otp = ?', (otp,))
+        conn.commit()
+        conn.close()
         if (datetime.strptime(expiry,f) - datetime.now()).seconds / 60 > 1:
             flash("OTP expired")
-            conn.execute('DELETE from otps where otp = ?', (otp,))
-            conn.commit()
-            conn.close()
         else:
             flash("OTP verified")
         return redirect(url_for('verify'))
