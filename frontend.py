@@ -36,7 +36,6 @@ def create():
 @app.route("/verify", methods=("GET","POST"))
 def verify():
     if request.method == "POST":  
-        print(request.host)
         conn = db_connect() 
         otp = request.form['otp']
         f = '%Y-%m-%d %H:%M:%S'
